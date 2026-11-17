@@ -208,4 +208,4 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 | 6 i18n | detection, persistence, `<html lang>` done; key-parity and E2E tests wait for the frontend's locale files |
 | 7 Advanced mode logic | core done (print size, `low-module-px`, file names); per-content-type E2E waits for the frontend's forms |
 | 8 PWA | service worker, manifest, offline reload done (E2E green); icons and update toast are the frontend's |
-| 9 Hardening | planned |
+| 9 Hardening | CSP, no-referrer, same-origin and CSP-violation E2E done; axe, Lighthouse and full-session test wait for the UI |

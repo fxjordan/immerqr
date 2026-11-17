@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Everything is served from this origin; nothing is fetched at runtime (connect-src 'none').
+      img-src data: blob:  logos are read as data URLs; PNG/PDF export and the scan check draw the code
+                           from a blob: URL onto a canvas.
+      frame-ancestors cannot be set from a meta tag; GitHub Pages sends no header for it.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
     <meta name="theme-color" content="#0F3B2C" />
     <meta name="description" content="QR-Codes, die nie verwelken. Dein Link steckt direkt im Code." />
     <link rel="icon" type="image/svg+xml" href="/mark.svg" />
