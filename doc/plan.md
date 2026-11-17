@@ -96,7 +96,11 @@ Tests: Vitest smoke, Playwright loads `/` and finds the heading.
 
 Done-check: CI green; placeholder live at `https://immerqr.de` over HTTPS.
 
-Needs from you: GitHub repo (name `immerqr`?), Pages source set to "GitHub Actions", DNS at the `.de` registrar (4 `A` + 4 `AAAA` records for GitHub Pages, or `ALIAS`), "Enforce HTTPS" after the cert is issued.
+Until `immerqr.de` is bought, the deploy builds with `BASE_PATH=/immerqr/` and serves the GitHub project page. Switching to the domain:
+1. DNS at the registrar: 4 `A` + 4 `AAAA` records for GitHub Pages.
+2. `gh api -X PUT repos/fxjordan/immerqr/pages -f cname=immerqr.de`, then "Enforce HTTPS" once the certificate is issued.
+3. Remove `BASE_PATH` from `.github/workflows/deploy.yml`.
+4. Codes made on the project page are unaffected: they never point at the site.
 
 ### Phase 2: Core encoding
 
@@ -200,7 +204,7 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 
 | Phase | Status |
 |---|---|
-| 1 Scaffold & deploy | done locally; CI and Pages deploy run on first push |
+| 1 Scaffold & deploy | done; live at https://fxjordan.github.io/immerqr/ until the domain is bought |
 | 2 Core encoding | done |
 | 3 Exports and scan check | done (incl. E2E download decode) |
 | 4 Logo | done |
