@@ -1,12 +1,35 @@
+import { copyFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { playwright } from '@vitest/browser-playwright';
 import { VitePWA } from 'vite-plugin-pwa';
 
+/** GitHub Pages serves 404.html for unknown paths; a copy of the app lets the client router handle /warum etc. */
+function pagesFallback(): Plugin {
+  return {
+    name: 'pages-404-fallback',
+    apply: 'build',
+    closeBundle() {
+      copyFileSync('dist/index.html', 'dist/404.html');
+    },
+  };
+}
+
 export default defineConfig({
   base: '/',
+  resolve: {
+    alias: Object.fromEntries(
+      ['html2canvas', 'canvg', 'dompurify'].map((name) => [
+        name,
+        fileURLToPath(new URL('./src/core/vendor/unused-optional.ts', import.meta.url)),
+      ]),
+    ),
+  },
   plugins: [
     svelte(),
+    pagesFallback(),
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,

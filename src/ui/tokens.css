@@ -1,0 +1,95 @@
+/* ImmerQR design tokens ("Immergrün"). Every colour in the UI comes from here. */
+:root {
+  --snow: #f4f8f3;
+  --surface: #ffffff;
+  --line: #d3ded6;
+  --muted: #56665e;
+  --ink: #10201a;
+  --fir: #0f3b2c;
+  --moss: #2f7d4f;
+  --link: #2f7d4f;
+  --brand: #0f3b2c;
+  --on-brand: #ffffff;
+  --shoot: #a6db6b;
+  --warn: #b3261e;
+  --warn-bg: #fbeceb;
+  --ok-bg: #e3f1e6;
+  --ok-fg: #1f6b3e;
+  --wm-a: #0f3b2c;
+  --wm-b: #2f7d4f;
+  --vein: #f4f8f3;
+  --focus: #a6db6b;
+  --focus-halo: rgb(166 219 107 / 45%);
+  --shadow-code: rgb(15 59 44 / 45%);
+  --scrim: rgb(10 23 18 / 55%);
+
+  /* The code card stays white in both themes. */
+  --code-card: #ffffff;
+  --code-card-text: #56665e;
+  --code-checker: #e6ece7;
+
+  /* "Wilt" timeline on the Warum page. */
+  --wilt-1: #7dba4c;
+  --wilt-2: #c9b458;
+  --wilt-3: #a9743a;
+  --wilt-4: #8e9a93;
+
+  /* Mark in the reversed variant for icons. */
+  --mark-ring: var(--wm-a);
+  --mark-leaf: var(--wm-b);
+  --mark-vein: var(--surface);
+
+  --f-display: 'Bricolage Grotesque', 'Avenir Next', system-ui, sans-serif;
+  --f-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --r: 12px;
+  --r-sm: 10px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --snow: #0a1712;
+    --surface: #11221b;
+    --line: #20362c;
+    --muted: #93a79c;
+    --ink: #e5efe8;
+    --link: #5fb27f;
+    --brand: #a6db6b;
+    --on-brand: #0a1712;
+    --warn: #f2877e;
+    --warn-bg: #2c1513;
+    --ok-bg: #14301f;
+    --ok-fg: #8fd3a4;
+    --wm-a: #e5efe8;
+    --wm-b: #a6db6b;
+    --vein: #0a1712;
+    --shadow-code: rgb(0 0 0 / 60%);
+    --scrim: rgb(0 0 0 / 65%);
+    --wilt-4: #6f7c75;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --snow: #0a1712;
+  --surface: #11221b;
+  --line: #20362c;
+  --muted: #93a79c;
+  --ink: #e5efe8;
+  --link: #5fb27f;
+  --brand: #a6db6b;
+  --on-brand: #0a1712;
+  --warn: #f2877e;
+  --warn-bg: #2c1513;
+  --ok-bg: #14301f;
+  --ok-fg: #8fd3a4;
+  --wm-a: #e5efe8;
+  --wm-b: #a6db6b;
+  --vein: #0a1712;
+  --shadow-code: rgb(0 0 0 / 60%);
+  --scrim: rgb(0 0 0 / 65%);
+  --wilt-4: #6f7c75;
+  color-scheme: dark;
+}

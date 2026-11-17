@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-test('reloads offline after the first visit', async ({ page, context }) => {
+test('reloads and generates codes offline after the first visit', async ({ page, context }) => {
+  await page.addInitScript(() => localStorage.setItem('immerqr.mode', 'simple'));
   await page.goto('/');
   await page.evaluate(async () => {
     const reg = await navigator.serviceWorker.ready;
@@ -13,7 +14,13 @@ test('reloads offline after the first visit', async ({ page, context }) => {
   });
   await context.setOffline(true);
   await page.reload();
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('ImmerQR');
+  await page.getByLabel('Link').fill('https://example.com/offline');
+  await expect(page.getByText('Geprüft: Der Code enthält genau')).toBeVisible();
+  const [file] = await Promise.all([
+    page.waitForEvent('download'),
+    page.getByRole('button', { name: 'PDF laden' }).click(),
+  ]);
+  expect(file.suggestedFilename()).toMatch(/\.pdf$/);
 });
 
 test('serves a valid web manifest', async ({ request }) => {

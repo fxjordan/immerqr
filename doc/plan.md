@@ -200,12 +200,12 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 
 | Phase | Status |
 |---|---|
-| 1 Scaffold & deploy | built, all checks green locally; waiting for GitHub repo + DNS to deploy |
-| 2 Core encoding | built, 190 node tests green locally (round-trip suite ~20 s); not yet in CI |
-| 3 Exports and scan check | core done (22 browser tests green); E2E download tests wait for the frontend's simple mode |
-| 4 Logo | core done (logo suites green); UI drop zone is the frontend's |
-| 5 PDF export | core done (PDF browser tests green); lazy-chunk check moves to phase 9 with the network test |
-| 6 i18n | detection, persistence, `<html lang>` done; key-parity and E2E tests wait for the frontend's locale files |
-| 7 Advanced mode logic | core done (print size, `low-module-px`, file names); per-content-type E2E waits for the frontend's forms |
-| 8 PWA | service worker, manifest, offline reload done (E2E green); icons and update toast are the frontend's |
-| 9 Hardening | CSP, no-referrer, same-origin and CSP-violation E2E done; axe, Lighthouse and full-session test wait for the UI |
+| 1 Scaffold & deploy | done locally; CI and Pages deploy run on first push |
+| 2 Core encoding | done |
+| 3 Exports and scan check | done (incl. E2E download decode) |
+| 4 Logo | done |
+| 5 PDF export | done; jsPDF loads lazily, its optional html2canvas/canvg/DOMPurify are aliased out |
+| 6 i18n | done (detection, persistence, key parity, every-string switch E2E) |
+| 7 Advanced mode logic | done (E2E per content type) |
+| 8 PWA | done (offline reload and generation E2E) |
+| 9 Hardening | CSP, same-origin full session, axe in both modes/themes/locales done; Lighthouse CI and real-device check open |
