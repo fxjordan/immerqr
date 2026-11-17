@@ -33,7 +33,9 @@ interface CodeStyle {
 
 // The UI reads the dropped file with FileReader and passes the data URL; the SVG embeds it, so it stays self-contained.
 interface LogoImage { dataUrl: string; width: number; height: number }
-interface Logo { image: LogoImage; scale: number; plate: boolean; platePadding: number } // scale ≤ 0.25, above is an error
+// scale: longer logo side / symbol width (quiet zone excluded), ≤ 0.25 (MAX_LOGO_SCALE), above is an error; default 0.22.
+// platePadding in modules, default 0.5. A logo forces ECC H and at least QR version 4.
+interface Logo { image: LogoImage; scale: number; plate: boolean; platePadding: number }
 
 interface GenerateInput { payload: Payload; ecc: Ecc; style: CodeStyle; logo?: Logo }
 

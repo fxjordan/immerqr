@@ -13,6 +13,8 @@ export default defineConfig({
         test: {
           name: 'node',
           environment: 'node',
+          // Decode suites render and scan hundreds of codes per file.
+          testTimeout: 60_000,
           include: ['tests/core/**/*.test.ts'],
         },
       },

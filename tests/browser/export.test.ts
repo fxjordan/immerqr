@@ -96,3 +96,35 @@ describe('scanCheck', () => {
     expect(await scanCheck(r.svg)).toEqual({ ok: false });
   });
 });
+
+describe('logo in exports', () => {
+  async function logoDataUrl(): Promise<string> {
+    const c = new OffscreenCanvas(100, 100);
+    const ctx = c.getContext('2d')!;
+    ctx.fillStyle = '#b3261e';
+    ctx.fillRect(0, 0, 100, 100);
+    const blob = await c.convertToBlob({ type: 'image/png' });
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  it('renders the logo into the PNG and still decodes', async () => {
+    const dataUrl = await logoDataUrl();
+    const r = generate({
+      payload: { kind: 'url', url: 'https://example.com/speisekarte?tisch=12' },
+      ecc: 'Q',
+      style: BRAND_STYLE,
+      logo: { image: { dataUrl, width: 100, height: 100 }, scale: 0.25, plate: true, platePadding: 0.5 },
+    });
+    if (isGenerateError(r)) throw new Error(r.code);
+    const { blob } = await exportPng(r, { sizePx: 1000 });
+    const img = await pixels(blob);
+    const centre = (500 * 1000 + 500) * 4;
+    expect(Array.from(img.data.slice(centre, centre + 3))).toEqual([0xb3, 0x26, 0x1e]);
+    expect(await decodeBoth(img)).toEqual({ jsqr: r.text, zxing: r.text });
+    expect(await scanCheck(r.svg)).toEqual({ ok: true, text: r.text });
+  });
+});

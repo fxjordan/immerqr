@@ -132,7 +132,7 @@ Done-check: deployed site generates and downloads a scannable code.
 
 ### Phase 4: Logo
 
-Features: logo drop/picker passes a data URL to core; ECC forced to H with `ecc-raised-for-logo`; white plate on/off, plate padding; scale ≤ 0.25 (default 0.22, as in the CLI); logo centred, plate snapped to whole modules.
+Features: logo drop/picker passes a data URL to core; ECC forced to H with `ecc-raised-for-logo`; white plate on/off, plate padding; scale ≤ 0.25 (default 0.22, as in the CLI) of the symbol width, quiet zone excluded; logo centred, plate snapped to whole modules; logo codes use at least version 4 (version 2 failed the decode tests).
 
 Tests: every corpus URL with a logo at 0.25 and a plate decodes at H (both decoders, both sizes); scale 0.26 returns `logo-too-large`; ECC L input with logo yields H and the warning; SVG still has no external reference (logo is `data:`).
 
@@ -202,7 +202,7 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 | 1 Scaffold & deploy | built, all checks green locally; waiting for GitHub repo + DNS to deploy |
 | 2 Core encoding | built, 190 node tests green locally (round-trip suite ~20 s); not yet in CI |
 | 3 Exports and scan check | core done (22 browser tests green); E2E download tests wait for the frontend's simple mode |
-| 4 Logo | planned |
+| 4 Logo | core done (logo suites green); UI drop zone is the frontend's |
 | 5 PDF export | planned |
 | 6 i18n | planned |
 | 7 Advanced mode logic | planned |
