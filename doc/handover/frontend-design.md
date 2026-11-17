@@ -14,6 +14,24 @@ Read these before writing any UI code. Where this prompt and a source disagree, 
 
 The implementation agent sets up the project (Vite, TypeScript, Svelte 5 unless the user chose otherwise), core, tests and deployment. Check `doc/plan.md` for the current stack and phase before starting; if core is not ready yet, build against a stub that satisfies `contract.md`.
 
+## Working alongside the implementation agent
+
+Both agents run at the same time, so keep out of each other's way:
+
+- **Own worktree and branch.** Work in a separate git worktree on branch `frontend` (`git worktree add ../qrgen-frontend -b frontend`), never in the implementation agent's checkout. Merge `main` into `frontend` often and resolve `package.json` / `package-lock.json` conflicts by re-running `npm install`.
+- **What you own:** `src/ui/` (replace the placeholder `App.svelte` freely), styles, fonts, icons, `public/` assets except `CNAME`, and the locale files below. The implementation agent owns `src/core/`, `tests/`, configs and workflows; propose changes there through `doc/handover/contract.md` or the user.
+- **i18n from the first screen.** Create `src/i18n/de.json`, `src/i18n/en.json` and a small typed `t(key, params?)` helper with `{name}` interpolation. The implementation agent later adds browser-language detection, persistence, `<html lang>` updates and the key-parity tests on top, without changing the helper's call signature.
+- **Core API.** Import only from `src/core/index.ts`. `generate`, `isGenerateError`, `encodePayload`, `BRAND_STYLE` and `CLASSIC_STYLE` exist now; exports, scan check and logo arrive phase by phase (see the status table in `doc/plan.md`). Until then, stub them behind the signatures in `contract.md`.
+- **Leaf animation hook.** The three finder cores in every SVG from `generate` carry `class="eye"`. Animate those; never re-draw the code in UI.
+
+### Code-style rules newer than the board
+
+`doc/branding.md` (section "Code style") wins over `doc/brand/board.html`. Decode tests changed three things since the board was drawn:
+
+- The leaf in the code eyes is **mirrored**: top-right and bottom-left corners at full radius. The logo mark keeps its original orientation.
+- Alignment patterns (the small 5×5 squares) stay square in every module style.
+- The "Punkt" eye option is a 3×3 core with corner radius 0.6, not a circle. Label it accordingly if "Punkt" reads wrong next to the preview.
+
 ## Design rules
 
 - **Tokens first.** Turn the palette in `doc/branding.md` into CSS custom properties in `src/ui/tokens.css`, using the light/dark structure shown in `doc/brand/board.html` (`prefers-color-scheme` plus a `data-theme` override). Every colour in a component comes from a token.
