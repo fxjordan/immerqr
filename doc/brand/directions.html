@@ -1,0 +1,198 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImmerQR Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo+Black&family=Caveat:wght@600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Syne:wght@700;800&display=swap">
+<style>
+/* Layout: four concept cards in a 2x2 grid, each a self-contained mood with its own committed palette. */
+:root {
+  --bg: #F4F5F7; --fg: #14171C; --muted: #5E6570; --line: #D9DDE3; --card: #FFFFFF;
+  --f-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0F1216; --fg: #E7EAEE; --muted: #9AA3AE; --line: #262C34; --card: #171B21; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0F1216; --fg: #E7EAEE; --muted: #9AA3AE; --line: #262C34; --card: #171B21; color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 36px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+header { display: grid; gap: 6px; }
+header h1 { font: 700 1.9rem/1.15 var(--f-body); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); max-width: 65ch; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.concept { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--card); display: grid; grid-template-rows: auto 1fr; }
+.stage { position: relative; padding: 26px 24px 22px; display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 18px; align-items: center; min-height: 230px; }
+.stage .wm { line-height: 0.95; margin: 0; }
+.stage .tl { margin-top: 10px; font-size: 0.95rem; }
+.qr { width: 132px; height: 132px; border-radius: 8px; overflow: hidden; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.num { position: absolute; top: 12px; right: 14px; font: 600 0.7rem/1 var(--f-body); letter-spacing: 0.1em; text-transform: uppercase; opacity: .7; }
+.info { padding: 18px 24px 22px; display: grid; gap: 12px; align-content: start; }
+.info h2 { margin: 0; font: 700 1.15rem/1.2 var(--f-body); }
+.info h2 span { color: var(--muted); font-weight: 500; }
+.info p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips i { display: grid; gap: 4px; font: 500 0.66rem/1 ui-monospace, Menlo, monospace; color: var(--muted); font-style: normal; }
+.chips i::before { content: ""; width: 44px; height: 30px; border-radius: 6px; background: var(--c); border: 1px solid rgba(127,127,127,.25); }
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.82rem; }
+.pc ul { margin: 0; padding-left: 16px; display: grid; gap: 2px; }
+.pc b { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.type { font-size: 0.8rem; color: var(--muted); }
+
+/* 1 Kästchenpapier: German squared school notebook, permanent ink */
+.k .stage {
+  background-color: #FDFDFB; color: #1C2B8F;
+  background-image: linear-gradient(#C9DAEE 1px, transparent 1px), linear-gradient(90deg, #C9DAEE 1px, transparent 1px);
+  background-size: 18px 18px; background-position: -1px -1px;
+  box-shadow: inset 34px 0 0 -32px #E0453A;
+}
+.k .wm { font: 400 3.1rem/0.95 "Archivo Black", Impact, sans-serif; letter-spacing: -0.02em; color: #1C2B8F; }
+.k .wm em { font-style: normal; background: #FFE14D; padding: 0 4px; color: #14171C; }
+.k .tl { font: 600 1.55rem/1 "Caveat", "Comic Sans MS", cursive; color: #1C2B8F; transform: rotate(-2deg); transform-origin: left; }
+.k .qr { background: #fff; box-shadow: 3px 3px 0 #1C2B8F; border: 2px solid #1C2B8F; }
+
+/* 2 Immergrün: evergreen, never dies */
+.g .stage { background: #0F3B2C; color: #EAF3EC; }
+.g .wm { font: 800 3rem/0.95 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.04em; }
+.g .wm em { font-style: normal; color: #A6DB6B; }
+.g .tl { color: #B9D3C3; }
+.g .qr { background: #F4F8F3; padding: 6px; border-radius: 18px; }
+
+/* 3 Bernstein: amber preserves for millions of years */
+.b .stage { background: radial-gradient(120% 140% at 85% 20%, #4A2A0C 0%, #1B1009 62%); color: #F7E7C8; }
+.b .wm { font: 800 3rem/0.95 "Fraunces", Georgia, serif; letter-spacing: -0.03em; font-variation-settings: "opsz" 144; }
+.b .wm em { font-style: normal; color: #F2A825; }
+.b .tl { color: #D9BF93; font-family: "Fraunces", Georgia, serif; font-weight: 600; }
+.b .qr { background: #FFF8EA; padding: 8px; border-radius: 26px 26px 26px 6px; box-shadow: 0 0 0 4px #F2A825, 0 0 40px -6px rgba(242,168,37,.55); }
+
+/* 4 Mosaik: square tesserae that last 2000 years */
+.m .stage { background: #ECE8E1; color: #1A1C22; }
+.m .wm { font: 800 3rem/0.95 "Syne", system-ui, sans-serif; letter-spacing: -0.03em; }
+.m .wm em { font-style: normal; color: #2347A5; }
+.m .tl { color: #5D5A55; }
+.m .qr { background: #F7F5F1; padding: 6px; border: 1px solid #CFC8BC; }
+
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 440px) {
+  .stage { grid-template-columns: 1fr; }
+  .qr { width: 120px; height: 120px; }
+  .k .wm, .g .wm, .b .wm, .m .wm { font-size: 2.5rem; }
+  .pc { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Four directions for ImmerQR</h1>
+    <p>No signs this time. Each direction takes "for ever" from a different place. The sample codes on each card are real and scannable, styled the way that direction would draw them. Pick one, or mix parts.</p>
+  </header>
+
+  <div class="grid">
+
+    <article class="concept k">
+      <div class="stage">
+        <span class="num">1</span>
+        <div>
+          <p class="wm">Immer<em>QR</em></p>
+          <p class="tl">für immer &amp; ewig!</p>
+        </div>
+        <div class="qr" data-qr="k"></div>
+      </div>
+      <div class="info">
+        <h2>Kästchenpapier <span>· squared notebook</span></h2>
+        <p>The 5 mm squared paper from every German maths class, with the red margin line and permanent royal-blue ink. A QR code is already a pattern of filled squares. The tagline is a nod to the Poesiealbum (friendship book) classic "für immer und ewig". Playful, nostalgic and very German.</p>
+        <div class="chips"><i style="--c:#FDFDFB">paper</i><i style="--c:#C9DAEE">grid</i><i style="--c:#1C2B8F">ink</i><i style="--c:#E0453A">margin</i><i style="--c:#FFE14D">marker</i></div>
+        <div class="type">Archivo Black + Caveat (handwriting) + Inter</div>
+        <div class="pc"><div><b>Pro</b><ul><li>Funniest, most memorable</li><li>Germans recognise it instantly</li></ul></div><div><b>Con</b><ul><li>Can look childish if overdone</li><li>Grid background fights busy layouts</li></ul></div></div>
+      </div>
+    </article>
+
+    <article class="concept g">
+      <div class="stage">
+        <span class="num">2</span>
+        <div>
+          <p class="wm">Immer<em>QR</em></p>
+          <p class="tl">Immergrün. Codes that never wilt.</p>
+        </div>
+        <div class="qr" data-qr="g"></div>
+      </div>
+      <div class="info">
+        <h2>Immergrün <span>· evergreen</span></h2>
+        <p>"Immer" is right there in the German word for evergreen. A deep fir green with one fresh shoot green: calm, alive, quietly trustworthy. Codes are drawn with rounded modules, like leaves. Suits a free, not-for-profit tool.</p>
+        <div class="chips"><i style="--c:#0F3B2C">fir</i><i style="--c:#2F7D4F">moss</i><i style="--c:#A6DB6B">shoot</i><i style="--c:#F4F8F3">snow</i><i style="--c:#14171C">ink</i></div>
+        <div class="type">Bricolage Grotesque + Inter</div>
+        <div class="pc"><div><b>Pro</b><ul><li>Name and colour reinforce each other</li><li>Calm, works for every audience</li></ul></div><div><b>Con</b><ul><li>Green reads "eco" to some people</li><li>Least funny of the four</li></ul></div></div>
+      </div>
+    </article>
+
+    <article class="concept b">
+      <div class="stage">
+        <span class="num">3</span>
+        <div>
+          <p class="wm">Immer<em>QR</em></p>
+          <p class="tl">Preserved, like a fly in amber.</p>
+        </div>
+        <div class="qr" data-qr="b"></div>
+      </div>
+      <div class="info">
+        <h2>Bernstein <span>· amber</span></h2>
+        <p>Amber keeps things intact for 40 million years, and Baltic amber is a German coastal classic. Dark resin background, glowing amber accent, a soft serif. The code sits in a glowing drop-shaped frame. Warm and a little luxurious, without costing anything.</p>
+        <div class="chips"><i style="--c:#1B1009">resin</i><i style="--c:#4A2A0C">amber dark</i><i style="--c:#F2A825">amber</i><i style="--c:#F7E7C8">glow</i><i style="--c:#FFF8EA">light</i></div>
+        <div class="type">Fraunces (soft serif) + Inter</div>
+        <div class="pc"><div><b>Pro</b><ul><li>Most atmospheric, stands out</li><li>Dark-first looks great at night</li></ul></div><div><b>Con</b><ul><li>Light mode needs extra design work</li><li>Fly-in-amber joke needs explaining</li></ul></div></div>
+      </div>
+    </article>
+
+    <article class="concept m">
+      <div class="stage">
+        <span class="num">4</span>
+        <div>
+          <p class="wm">Immer<em>QR</em></p>
+          <p class="tl">Laid square by square. Lasts two thousand years.</p>
+        </div>
+        <div class="qr" data-qr="m"></div>
+      </div>
+      <div class="info">
+        <h2>Mosaik <span>· Roman mosaic</span></h2>
+        <p>Roman mosaics are made of small square stones and are still on the floor in Trier and Cologne after 2,000 years. A QR code is a mosaic. Travertine stone ground, lapis blue and gold smalti accents; modules drawn as slightly separated tiles.</p>
+        <div class="chips"><i style="--c:#ECE8E1">travertine</i><i style="--c:#1A1C22">basalt</i><i style="--c:#2347A5">lapis</i><i style="--c:#C79A2E">gold</i><i style="--c:#9A3B2A">brick</i></div>
+        <div class="type">Syne + Inter</div>
+        <div class="pc"><div><b>Pro</b><ul><li>Strongest link between QR and permanence</li><li>Grown-up, crafted</li></ul></div><div><b>Con</b><ul><li>Tile gaps must stay small to scan</li><li>Can drift towards museum-serious</li></ul></div></div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function () {
+  if (typeof qrcode !== 'function') return;
+  var q = qrcode(0, 'Q');
+  q.addData('https://immerqr.de');
+  q.make();
+  var n = q.getModuleCount(), pad = 2, s = n + pad * 2;
+  function isFinder(r, c) { return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7); }
+  var tiles = ['#1A1C22', '#22252C', '#2347A5', '#1A1C22', '#1F2128'];
+  var styles = {
+    k: function (r, c) { return '<rect x="' + c + '" y="' + r + '" width="1" height="1" fill="#1C2B8F"/>'; },
+    g: function (r, c) { return isFinder(r, c) ? '<rect x="' + c + '" y="' + r + '" width="1" height="1" fill="#0F3B2C"/>' : '<circle cx="' + (c + .5) + '" cy="' + (r + .5) + '" r=".47" fill="#0F3B2C"/>'; },
+    b: function (r, c) { return '<rect x="' + c + '" y="' + r + '" width="1" height="1" rx=".28" fill="#2A1707"/>'; },
+    m: function (r, c) { var t = tiles[(r * 7 + c * 3) % tiles.length]; return '<rect x="' + (c + .07) + '" y="' + (r + .07) + '" width=".86" height=".86" fill="' + t + '"/>'; }
+  };
+  var bgs = { k: '#FFFFFF', g: '#F4F8F3', b: '#FFF8EA', m: '#F7F5F1' };
+  document.querySelectorAll('[data-qr]').forEach(function (el) {
+    var k = el.getAttribute('data-qr'), out = '';
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) out += styles[k](r, c);
+    el.innerHTML = '<svg viewBox="' + (-pad) + ' ' + (-pad) + ' ' + s + ' ' + s + '" role="img" aria-label="Sample QR code for immerqr.de"><rect x="' + (-pad) + '" y="' + (-pad) + '" width="' + s + '" height="' + s + '" fill="' + bgs[k] + '"/>' + out + '</svg>';
+  });
+})();
+</script>

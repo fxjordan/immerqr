@@ -1,0 +1,505 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImmerQR Brand Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one long column of brand chapters; hero is a two-up of wordmark and a living code. Leaf geometry recurs as the only ornament. */
+:root {
+  --snow: #F4F8F3;      /* page ground */
+  --surface: #FFFFFF;
+  --ink: #10201A;
+  --muted: #56665E;
+  --line: #D3DED6;
+  --fir: #0F3B2C;       /* brand primary: headings accents, primary button, code modules */
+  --moss: #2F7D4F;      /* links, the leaf in each code eye */
+  --shoot: #A6DB6B;     /* fill-only highlight, fir text on it */
+  --brand: #0F3B2C;     /* primary button fill */
+  --on-brand: #FFFFFF;
+  --link: #2F7D4F;
+  --wm-a: #0F3B2C;      /* wordmark "Immer" */
+  --wm-b: #2F7D4F;      /* wordmark "QR" */
+  --ok-bg: #E3F1E6; --ok-fg: #1F6B3E;
+  --warn: #B3261E;
+  --vein: #F4F8F3;
+  --f-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --snow: #0A1712; --surface: #11221B; --ink: #E5EFE8; --muted: #93A79C; --line: #20362C;
+    --brand: #A6DB6B; --on-brand: #0A1712; --link: #5FB27F; --wm-a: #E5EFE8; --wm-b: #A6DB6B;
+    --ok-bg: #14301F; --ok-fg: #8FD3A4; --warn: #F2877E; --vein: #0A1712;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --snow: #0A1712; --surface: #11221B; --ink: #E5EFE8; --muted: #93A79C; --line: #20362C;
+  --brand: #A6DB6B; --on-brand: #0A1712; --link: #5FB27F; --wm-a: #E5EFE8; --wm-b: #A6DB6B;
+  --ok-bg: #14301F; --ok-fg: #8FD3A4; --warn: #F2877E; --vein: #0A1712;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--snow); color: var(--ink);
+  font: 15px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 44px 80px;
+}
+.wrap { max-width: 1000px; margin: 0 auto; display: grid; gap: 72px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.05; }
+h2 { font-size: clamp(1.6rem, 3.6vw, 2.2rem); font-weight: 800; letter-spacing: -0.03em; }
+h3 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--link); }
+.eyebrow { font: 600 0.72rem/1 var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.eyebrow svg { width: 12px; height: 12px; color: var(--moss); }
+section { display: grid; gap: 24px; }
+.head { display: grid; gap: 10px; }
+.lede { color: var(--muted); font-size: 1rem; }
+.note { font-size: 0.82rem; color: var(--muted); }
+code, .mono { font-family: var(--f-mono); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 40px; align-items: center; }
+.lockup { display: flex; align-items: center; gap: clamp(12px, 2vw, 20px); }
+.lockup .mark { width: clamp(56px, 9vw, 92px); height: clamp(56px, 9vw, 92px); flex: none; }
+.wordmark { font: 800 clamp(3.2rem, 10vw, 6.4rem)/0.88 var(--f-display); letter-spacing: -0.055em; color: var(--wm-a); font-variation-settings: "opsz" 96; }
+.wordmark b { color: var(--wm-b); font-weight: 800; }
+.tag { margin-top: 26px; display: grid; gap: 6px; }
+.tag .de { font: 700 clamp(1.4rem, 3vw, 1.9rem)/1.15 var(--f-display); letter-spacing: -0.02em; }
+.tag .en { color: var(--muted); font-size: 1.02rem; }
+.hero-code { background: #FFFFFF; border-radius: 22px; padding: 18px; border: 1px solid var(--line); box-shadow: 0 24px 48px -32px rgba(15,59,44,.45); max-width: 360px; width: 100%; justify-self: end; display: grid; gap: 10px; }
+.hero-code .qr { aspect-ratio: 1; }
+.hero-code figcaption { display: flex; justify-content: space-between; gap: 8px; font: 500 0.75rem/1.3 var(--f-mono); color: #56665E; padding: 0 4px; }
+.qr svg { width: 100%; height: 100%; display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-code .eye { transform-box: fill-box; transform-origin: center; animation: unfurl .9s cubic-bezier(.2,.8,.2,1) both; }
+  .hero-code .eye:nth-of-type(2) { animation-delay: .12s; } .hero-code .eye:nth-of-type(3) { animation-delay: .24s; }
+  @keyframes unfurl { from { transform: scale(.7) rotate(-18deg); } to { transform: none; } }
+}
+
+/* Wilt vs evergreen */
+.life { display: grid; gap: 12px; }
+.lane { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; align-items: center; padding: 18px 20px; }
+.lane h3 { font-size: 1rem; }
+.lane .who { display: grid; gap: 2px; }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; position: relative; }
+.step { display: grid; gap: 6px; justify-items: start; font-size: 0.82rem; }
+.step svg { width: 30px; height: 30px; }
+.step b { font: 600 0.72rem/1 var(--f-mono); letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase; }
+.step span { line-height: 1.35; }
+.lane.them { background: transparent; border-style: dashed; }
+.lane.them .step span { color: var(--muted); }
+
+/* Mark */
+.marks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.mk { border-radius: var(--r); display: grid; place-items: center; gap: 12px; padding: 26px 12px 14px; border: 1px solid var(--line); }
+.mk .mark { width: 64px; height: 64px; }
+.mk span { font-size: 0.76rem; }
+.construct { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.construct .card { padding: 18px; display: grid; gap: 12px; align-content: start; }
+.construct svg.big { width: 100%; max-width: 150px; height: auto; aspect-ratio: 1; justify-self: center; }
+.sizes { display: flex; align-items: flex-end; gap: 18px; justify-content: center; padding-top: 6px; }
+.sizes div { display: grid; justify-items: center; gap: 6px; font: 500 0.7rem/1 var(--f-mono); color: var(--muted); }
+
+/* Code style */
+.codestyle { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.rule { padding: 18px; display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 16px; align-items: center; }
+.rule .qr { background: #fff; border-radius: 10px; border: 1px solid var(--line); aspect-ratio: 1; padding: 4px; }
+.rule .verdict { font: 600 0.72rem/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; display: inline-flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.rule .verdict.yes { color: var(--ok-fg); }
+.rule .verdict.no { color: var(--warn); }
+.rule p { font-size: 0.86rem; color: var(--muted); }
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; }
+.specs div { padding: 14px 18px; border-right: 1px solid var(--line); display: grid; gap: 2px; }
+.specs div:last-child { border-right: 0; }
+.specs b { font: 700 1.25rem/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.specs span { font-size: 0.78rem; color: var(--muted); }
+
+/* Palette */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.sw { overflow: hidden; }
+.chip { height: 92px; display: flex; align-items: flex-end; padding: 8px 10px; font: 600 0.72rem/1 var(--f-mono); }
+.sw .meta { padding: 10px 12px 12px; display: grid; gap: 2px; }
+.sw .meta b { font: 700 0.98rem/1.2 var(--f-display); }
+.sw .meta code { font-size: 0.76rem; }
+.sw .meta span { font-size: 0.76rem; color: var(--muted); }
+.duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mode { border-radius: var(--r); padding: 18px; display: grid; gap: 12px; }
+.mode .row { display: flex; gap: 6px; flex-wrap: wrap; }
+.mode .row i { width: 34px; height: 34px; border-radius: 8px; display: block; box-shadow: inset 0 0 0 1px rgba(127,127,127,.28); }
+.mode .demo { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 0.85rem; }
+.mode .demo .b { padding: 8px 14px; border-radius: 9px; font-weight: 600; }
+
+/* Type */
+.type { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.spec { padding: 20px; display: grid; gap: 10px; align-content: start; }
+.spec .big { line-height: 1; }
+.scale { padding: 20px; display: grid; gap: 10px; }
+.scale div { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+.scale small { font: 500 0.7rem/1 var(--f-mono); color: var(--muted); }
+
+/* Mock */
+.mock { overflow: hidden; border-radius: 16px; }
+.mock-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.mini { display: flex; align-items: center; gap: 8px; }
+.mini .mark { width: 26px; height: 26px; }
+.mini .wm { font: 800 1.35rem/1 var(--f-display); letter-spacing: -0.045em; color: var(--wm-a); }
+.mini .wm b { color: var(--wm-b); font-weight: 800; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; font-size: 0.8rem; gap: 2px; }
+.seg span { padding: 5px 12px; color: var(--muted); border-radius: 999px; }
+.seg span.on { background: var(--brand); color: var(--on-brand); font-weight: 600; }
+.mock-body { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; padding: 30px; align-items: start; }
+.mock h3 { font-size: 1.5rem; letter-spacing: -0.03em; margin-bottom: 18px; }
+label { font: 600 0.8rem/1 var(--f-body); display: block; margin-bottom: 8px; }
+input[type=url] {
+  width: 100%; font: 400 1rem/1.4 var(--f-mono); padding: 13px 14px; border-radius: 10px;
+  border: 2px solid var(--line); background: var(--snow); color: var(--ink);
+}
+input[type=url]:focus { outline: none; border-color: var(--link); box-shadow: 0 0 0 4px color-mix(in srgb, var(--shoot) 45%, transparent); }
+.check { margin-top: 14px; display: flex; gap: 10px; align-items: flex-start; background: var(--ok-bg); color: var(--ok-fg); border-radius: 10px; padding: 12px 14px; font-size: 0.88rem; }
+.check .mono { color: var(--ink); word-break: break-all; }
+.check svg { flex: none; margin-top: 2px; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.btn { font: 600 0.9rem/1 var(--f-body); padding: 12px 18px; border-radius: 10px; border: 2px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn:focus-visible, input:focus-visible { outline: 3px solid var(--shoot); outline-offset: 2px; }
+.mock .qrbox { background: #fff; border-radius: 16px; padding: 14px; border: 1px solid var(--line); aspect-ratio: 1; max-width: 100%; }
+.promises { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.promises div { padding: 16px 20px; font-size: 0.84rem; color: var(--muted); border-right: 1px solid var(--line); display: grid; gap: 4px; }
+.promises div:last-child { border-right: 0; }
+.promises b { color: var(--ink); font: 700 0.98rem/1.25 var(--f-display); display: flex; align-items: center; gap: 6px; }
+.promises b svg { width: 14px; height: 14px; color: var(--moss); }
+
+/* Voice */
+.voice { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.voice .card { padding: 18px; display: grid; gap: 10px; align-content: start; }
+.voice ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 0.9rem; }
+.say { display: grid; gap: 8px; }
+.say p { font: 600 1.02rem/1.35 var(--f-display); }
+.say p small { display: block; font: 400 0.82rem/1.4 var(--f-body); color: var(--muted); }
+
+footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 22px; font-size: 0.82rem; color: var(--muted); }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-code { justify-self: start; max-width: 300px; }
+  .lane { grid-template-columns: 1fr; }
+  .marks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .construct, .type, .voice { grid-template-columns: 1fr; }
+  .codestyle, .duo { grid-template-columns: 1fr; }
+  .mock-body { grid-template-columns: 1fr; padding: 20px; }
+  .mock .qrbox { max-width: 260px; }
+  .promises { grid-template-columns: 1fr; }
+  .promises div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .specs div { border-right: 0; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 460px) {
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+  .rule { grid-template-columns: 1fr; }
+  .rule .qr { max-width: 140px; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 28 28">
+    <path fill="var(--mk-ring, #0F3B2C)" fill-rule="evenodd" d="M0 3.5A3.5 3.5 0 0 1 3.5 0h21A3.5 3.5 0 0 1 28 3.5v21a3.5 3.5 0 0 1-3.5 3.5h-21A3.5 3.5 0 0 1 0 24.5zM4 4v20h20V4z"/>
+    <path fill="var(--mk-leaf, #2F7D4F)" d="M14 8h5a1 1 0 0 1 1 1v5a6 6 0 0 1-6 6H9a1 1 0 0 1-1-1v-5a6 6 0 0 1 6-6z"/>
+    <path fill="none" stroke="var(--mk-vein, #FFFFFF)" stroke-width="1.1" stroke-linecap="round" d="M10.2 17.8 16.6 11.4"/>
+  </symbol>
+  <symbol id="leaf" viewBox="0 0 12 12">
+    <path fill="currentColor" d="M6 0h5.4a.6.6 0 0 1 .6.6V6a6 6 0 0 1-6 6H.6a.6.6 0 0 1-.6-.6V6a6 6 0 0 1 6-6z"/>
+  </symbol>
+  <symbol id="leaf-vein" viewBox="0 0 12 12">
+    <path fill="currentColor" d="M6 0h5.4a.6.6 0 0 1 .6.6V6a6 6 0 0 1-6 6H.6a.6.6 0 0 1-.6-.6V6a6 6 0 0 1 6-6z"/>
+    <path fill="none" stroke="var(--vein)" stroke-width=".9" stroke-linecap="round" d="M2.4 9.6 8.6 3.4"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="lockup" style="--mk-ring:var(--wm-a);--mk-leaf:var(--wm-b);--mk-vein:var(--snow)">
+        <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
+        <h1 class="wordmark">Immer<b>QR</b></h1>
+      </div>
+      <div class="tag">
+        <div class="de">Codes, die nie verwelken.</div>
+        <div class="en">QR codes that never wilt. Free, no redirect, no expiry, made in your browser.</div>
+      </div>
+    </div>
+    <figure class="hero-code" style="margin:0">
+      <div class="qr" data-qr="https://immerqr.de" aria-label="QR code for immerqr.de"></div>
+      <figcaption><span>https://immerqr.de</span><span>scan me</span></figcaption>
+    </figure>
+  </header>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Concept</div>
+      <h2>Immergrün: green through every winter</h2>
+      <p class="lede">An evergreen keeps its leaves when everything else drops them. Most "free" QR generators hand out codes that wilt: they route through the site's own redirect, and once the trial ends the code stops working or sits behind a paywall. An ImmerQR code holds your link itself, so there is nothing that can wilt.</p>
+    </div>
+    <div class="life">
+      <div class="lane card them">
+        <div class="who"><h3>Typical "dynamic" code</h3><span class="note">from a generator with a free trial</span></div>
+        <div class="steps">
+          <div class="step"><svg style="color:#7DBA4C" aria-hidden="true"><use href="#leaf"/></svg><b>Day 1</b><span>Works</span></div>
+          <div class="step"><svg style="color:#C9B458" aria-hidden="true"><use href="#leaf"/></svg><b>Day 14</b><span>Ad page before your link</span></div>
+          <div class="step"><svg style="color:#A9743A" aria-hidden="true"><use href="#leaf"/></svg><b>Day 30</b><span>"Upgrade to keep your code"</span></div>
+          <div class="step"><svg style="color:transparent;stroke:#8E9A93;stroke-width:.7;stroke-dasharray:1.4 1.2" aria-hidden="true"><use href="#leaf"/></svg><b>Day 31</b><span>Dead on every printed flyer</span></div>
+        </div>
+      </div>
+      <div class="lane card">
+        <div class="who"><h3>ImmerQR code</h3><span class="note">your link, written straight into the squares</span></div>
+        <div class="steps">
+          <div class="step"><svg style="color:var(--link)" aria-hidden="true"><use href="#leaf-vein"/></svg><b>Day 1</b><span>Works</span></div>
+          <div class="step"><svg style="color:var(--link)" aria-hidden="true"><use href="#leaf-vein"/></svg><b>Year 1</b><span>Works</span></div>
+          <div class="step"><svg style="color:var(--link)" aria-hidden="true"><use href="#leaf-vein"/></svg><b>Year 10</b><span>Works</span></div>
+          <div class="step"><svg style="color:var(--link)" aria-hidden="true"><use href="#leaf-vein"/></svg><b>Year 50</b><span>Works, even if immerqr.de is gone</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Mark</div>
+      <h2>A finder pattern with a leaf for an eye</h2>
+      <p class="lede">Every QR code has three square "eyes" in its corners. The mark is one of them, with the solid centre grown into a leaf. It is the same shape the codes themselves use, so the logo and the product look like family.</p>
+    </div>
+    <div class="construct">
+      <div class="card">
+        <span class="eyebrow">1 · QR finder pattern</span>
+        <svg class="big" viewBox="-2 -2 32 32" aria-hidden="true">
+          <g stroke="var(--line)" stroke-width=".1">
+            <path d="M0 0v28M4 0v28M8 0v28M12 0v28M16 0v28M20 0v28M24 0v28M28 0v28M0 0h28M0 4h28M0 8h28M0 12h28M0 16h28M0 20h28M0 24h28M0 28h28"/>
+          </g>
+          <path fill="var(--ink)" fill-rule="evenodd" d="M0 0h28v28H0zM4 4v20h20V4z"/><path fill="var(--ink)" d="M8 8h12v12H8z"/>
+        </svg>
+        <p class="note">7 × 7 modules: dark ring, light ring, 3 × 3 core.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">2 · Core becomes a leaf</span>
+        <svg class="big" viewBox="-2 -2 32 32" aria-hidden="true">
+          <g stroke="var(--line)" stroke-width=".1">
+            <path d="M0 0v28M4 0v28M8 0v28M12 0v28M16 0v28M20 0v28M24 0v28M28 0v28M0 0h28M0 4h28M0 8h28M0 12h28M0 16h28M0 20h28M0 24h28M0 28h28"/>
+          </g>
+          <path fill="var(--ink)" fill-rule="evenodd" d="M0 0h28v28H0zM4 4v20h20V4z"/>
+          <path fill="none" stroke="var(--muted)" stroke-width=".25" stroke-dasharray=".8 .6" d="M8 8h12v12H8z"/>
+          <path fill="var(--link)" d="M14 8h5a1 1 0 0 1 1 1v5a6 6 0 0 1-6 6H9a1 1 0 0 1-1-1v-5a6 6 0 0 1 6-6z"/>
+          <circle cx="14" cy="14" r="6" fill="none" stroke="var(--muted)" stroke-width=".2"/>
+        </svg>
+        <p class="note">Two opposite corners take the full 1.5-module radius; the other two stay nearly square.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">3 · Soften and add a vein</span>
+        <svg class="big" viewBox="-2 -2 32 32" aria-hidden="true" style="--mk-ring:var(--wm-a);--mk-leaf:var(--wm-b);--mk-vein:var(--surface)"><use href="#mark" width="28" height="28"/></svg>
+        <div class="sizes" style="--mk-ring:var(--wm-a);--mk-leaf:var(--wm-b);--mk-vein:var(--surface)">
+          <div><svg width="16" height="16" aria-hidden="true"><use href="#mark"/></svg>16</div>
+          <div><svg width="24" height="24" aria-hidden="true"><use href="#mark"/></svg>24</div>
+          <div><svg width="32" height="32" aria-hidden="true"><use href="#mark"/></svg>32</div>
+          <div><svg width="48" height="48" aria-hidden="true"><use href="#mark"/></svg>48</div>
+        </div>
+      </div>
+    </div>
+    <div class="marks">
+      <div class="mk" style="background:#FFFFFF;color:#10201A;border-color:#D3DED6;--mk-ring:#0F3B2C;--mk-leaf:#2F7D4F;--mk-vein:#FFFFFF"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg><span>Primary on white</span></div>
+      <div class="mk" style="background:#0F3B2C;color:#CFE3D6;border-color:#0F3B2C;--mk-ring:#F4F8F3;--mk-leaf:#A6DB6B;--mk-vein:#0F3B2C"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg><span>Reversed on fir</span></div>
+      <div class="mk" style="background:#A6DB6B;color:#0F3B2C;border-color:#A6DB6B;--mk-ring:#0F3B2C;--mk-leaf:#0F3B2C;--mk-vein:#A6DB6B"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg><span>One colour on shoot</span></div>
+      <div class="mk" style="background:#FFFFFF;color:#10201A;border-color:#D3DED6;--mk-ring:#10201A;--mk-leaf:#10201A;--mk-vein:#FFFFFF"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg><span>Black only, for print</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Code style</div>
+      <h2>"Blatt im Auge": how ImmerQR draws codes</h2>
+      <p class="lede">Round modules, square outer rings, a leaf in each eye. Every rule below was checked by decoding test codes with OpenCV's two QR detectors, at full size and shrunk to 300 px.</p>
+    </div>
+    <div class="codestyle">
+      <div class="rule card">
+        <div class="qr" data-qr="https://example.com/speisekarte?tisch=12" data-variant="brand"></div>
+        <div><span class="verdict yes">✓ Default</span><h3>Dots + square ring + leaf eye</h3><p>Decoded in all test runs. This is what simple mode produces.</p></div>
+      </div>
+      <div class="rule card">
+        <div class="qr" data-qr="https://example.com/speisekarte?tisch=12" data-variant="plain"></div>
+        <div><span class="verdict yes">✓ Plain option</span><h3>Classic squares, all ink</h3><p>For people who want the most conservative code. Always one click away.</p></div>
+      </div>
+      <div class="rule card">
+        <div class="qr" data-qr="https://example.com/speisekarte?tisch=12" data-variant="leafring"></div>
+        <div><span class="verdict no">✕ Not allowed</span><h3>Leaf-shaped outer ring</h3><p>Looks best, but failed every decode test. Scanners locate a code by its square rings, so they stay square.</p></div>
+      </div>
+      <div class="rule card">
+        <div class="qr" data-qr="https://example.com/speisekarte?tisch=12" data-variant="low"></div>
+        <div><span class="verdict no">✕ Not allowed</span><h3>Light green modules</h3><p>Shoot green on white is 1.5 : 1. Modules stay fir or ink; colour lives in the eyes only.</p></div>
+      </div>
+    </div>
+    <div class="specs card">
+      <div><b>0.45</b><span>dot radius, in modules</span></div>
+      <div><b>4</b><span>modules of quiet zone, always</span></div>
+      <div><b>Q</b><span>default error correction (H with a logo)</span></div>
+      <div><b>12.5 : 1</b><span>fir modules on white</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Colour</div>
+      <h2>Palette</h2>
+      <p class="lede">Two greens do the work: fir for weight, moss for life. Shoot green is the spring highlight and only ever a fill. Codes always sit on white, in both themes.</p>
+    </div>
+    <div class="swatches">
+      <div class="sw card"><div class="chip" style="background:#0F3B2C;color:#F4F8F3">11.6 : 1 on snow</div><div class="meta"><b>Fir</b><code>#0F3B2C</code><span>Brand, buttons, code modules</span></div></div>
+      <div class="sw card"><div class="chip" style="background:#2F7D4F;color:#FFFFFF">5.0 : 1 white text</div><div class="meta"><b>Moss</b><code>#2F7D4F</code><span>Links, leaf in each eye</span></div></div>
+      <div class="sw card"><div class="chip" style="background:#A6DB6B;color:#0F3B2C">7.7 : 1 fir text</div><div class="meta"><b>Shoot</b><code>#A6DB6B</code><span>Highlights, focus ring. Fill only</span></div></div>
+      <div class="sw card"><div class="chip" style="background:#F4F8F3;color:#10201A;box-shadow:inset 0 -1px 0 #D3DED6">ground</div><div class="meta"><b>Snow</b><code>#F4F8F3</code><span>Page background</span></div></div>
+      <div class="sw card"><div class="chip" style="background:#10201A;color:#F4F8F3">15.7 : 1 on snow</div><div class="meta"><b>Ink</b><code>#10201A</code><span>Body text</span></div></div>
+      <div class="sw card"><div class="chip" style="background:#56665E;color:#FFFFFF">5.7 : 1 on snow</div><div class="meta"><b>Lichen</b><code>#56665E</code><span>Secondary text</span></div></div>
+    </div>
+    <div class="duo">
+      <div class="mode" style="background:#F4F8F3;color:#10201A;box-shadow:inset 0 0 0 1px #D3DED6">
+        <h3>Light</h3>
+        <div class="row"><i style="background:#F4F8F3"></i><i style="background:#FFFFFF"></i><i style="background:#D3DED6"></i><i style="background:#56665E"></i><i style="background:#10201A"></i><i style="background:#0F3B2C"></i><i style="background:#2F7D4F"></i><i style="background:#A6DB6B"></i></div>
+        <div class="demo"><span class="b" style="background:#0F3B2C;color:#fff">PNG laden</span><span style="color:#2F7D4F;text-decoration:underline">Link</span><span style="color:#56665E">Hilfetext</span></div>
+      </div>
+      <div class="mode" style="background:#0A1712;color:#E5EFE8;box-shadow:inset 0 0 0 1px #20362C">
+        <h3>Dark</h3>
+        <div class="row"><i style="background:#0A1712"></i><i style="background:#11221B"></i><i style="background:#20362C"></i><i style="background:#93A79C"></i><i style="background:#E5EFE8"></i><i style="background:#5FB27F"></i><i style="background:#A6DB6B"></i></div>
+        <div class="demo"><span class="b" style="background:#A6DB6B;color:#0A1712">PNG laden</span><span style="color:#5FB27F;text-decoration:underline">Link</span><span style="color:#93A79C">Hilfetext</span></div>
+      </div>
+    </div>
+    <p class="note">In dark mode the primary button flips to shoot with dark text (11.3 : 1); links become a lighter moss (7.1 : 1). Success messages use moss with a check icon, errors use <span style="color:var(--warn)">brick red</span>.</p>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Type</div>
+      <h2>Typography</h2>
+      <p class="lede">Bricolage Grotesque has a slightly organic, hand-cut edge that suits growing things without turning cute. Inter carries the interface. JetBrains Mono shows the encoded content character for character. All three are OFL and will be self-hosted.</p>
+    </div>
+    <div class="type">
+      <div class="spec card"><span class="eyebrow">Display · Bricolage Grotesque 800</span><div class="big" style="font:800 2.6rem/0.95 var(--f-display);letter-spacing:-0.045em">Nie verwelkt.</div><p class="note">Wordmark, headings, big numbers. Tight tracking (-0.03 to -0.055 em).</p></div>
+      <div class="spec card"><span class="eyebrow">Body · Inter 400 / 600</span><div class="big" style="font:500 1.45rem/1.2 var(--f-body)">Füge deinen Link ein.</div><p class="note">Labels, help text, every setting in advanced mode.</p></div>
+      <div class="spec card"><span class="eyebrow">Data · JetBrains Mono</span><div class="big mono" style="font-size:1.1rem;line-height:1.35;word-break:break-all">WIFI:T:WPA;S:Gartenhaus;;</div><p class="note">The exact payload, so nobody has to trust us blindly.</p></div>
+    </div>
+    <div class="scale card">
+      <div><small>Display</small><span style="font:800 2.4rem/1 var(--f-display);letter-spacing:-0.045em">Codes, die nie verwelken</span></div>
+      <div><small>H2</small><span style="font:800 1.7rem/1.1 var(--f-display);letter-spacing:-0.03em">Erweiterte Optionen</span></div>
+      <div><small>H3</small><span style="font:700 1.1rem/1.2 var(--f-display)">Fehlerkorrektur</span></div>
+      <div><small>Body</small><span>Je höher die Stufe, desto mehr darf vom Code verdeckt sein.</span></div>
+      <div><small>Caption</small><span class="note">Stufe Q verträgt etwa 25 % Beschädigung.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Interface</div>
+      <h2>Simple mode, sketched</h2>
+      <p class="lede">Type a URL and the code regrows. Download buttons are placeholders.</p>
+    </div>
+    <div class="mock card">
+      <div class="mock-bar">
+        <div class="mini" style="--mk-ring:var(--wm-a);--mk-leaf:var(--wm-b);--mk-vein:var(--surface)"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg><span class="wm">Immer<b>QR</b></span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="seg"><span class="on">Einfach</span><span>Erweitert</span></div>
+          <div class="seg"><span class="on">DE</span><span>EN</span></div>
+        </div>
+      </div>
+      <div class="mock-body">
+        <div>
+          <h3>Dein QR-Code. Für immer.</h3>
+          <label for="url">Link</label>
+          <input id="url" type="url" value="https://example.com/speisekarte" spellcheck="false" autocomplete="off">
+          <div class="check" role="status">
+            <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="9" fill="currentColor"/><path d="M5 9.2l2.6 2.6L13 6.4" stroke="var(--ok-bg)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>Geprüft: Der Code enthält genau<br><span class="mono" id="decoded">https://example.com/speisekarte</span></div>
+          </div>
+          <div class="btns">
+            <button class="btn primary" type="button">PNG laden</button>
+            <button class="btn" type="button">SVG</button>
+            <button class="btn" type="button">PDF</button>
+          </div>
+        </div>
+        <div class="qrbox qr" id="mockqr" aria-label="QR code preview"></div>
+      </div>
+      <div class="promises">
+        <div><b><svg aria-hidden="true"><use href="#leaf"/></svg>Direkt</b>Dein Link steckt im Code, ohne Zwischenstation.</div>
+        <div><b><svg aria-hidden="true"><use href="#leaf"/></svg>Für immer</b>Kein Konto, kein Ablauf, nichts zu kündigen.</div>
+        <div><b><svg aria-hidden="true"><use href="#leaf"/></svg>Lokal</b>Alles passiert in deinem Browser, auch offline.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div class="eyebrow"><svg aria-hidden="true"><use href="#leaf"/></svg>Voice</div>
+      <h2>How ImmerQR talks</h2>
+    </div>
+    <div class="voice">
+      <div class="card"><h3>Lines we use</h3><div class="say">
+        <p>Codes, die nie verwelken.<small>QR codes that never wilt.</small></p>
+        <p>Für immer und immerdar.<small>For ever and ever.</small></p>
+        <p>Dein Link. Kein Umweg.<small>Your link. No detour.</small></p>
+      </div></div>
+      <div class="card"><h3>Do</h3><ul><li>Say what the code contains, word for word.</li><li>"du" in German: friendly, not salesy.</li><li>Labels that say what happens: "PNG laden".</li><li>Garden metaphors in small doses: one per screen at most.</li></ul></div>
+      <div class="card"><h3>Don't</h3><ul><li>No "Pro", "Premium" or upgrade hints, ever.</li><li>No exclamation marks or growth-hacking copy.</li><li>No eco claims: the green is about lasting, not about CO₂.</li></ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>ImmerQR · immerqr.de · hobby project, free for ever</span>
+    <span>Name chosen 17 Nov 2026 over QRstein, Immerdar, qrklar and others</span>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function () {
+  var FIR = '#0F3B2C', MOSS = '#2F7D4F', INK = '#10201A', SHOOT = '#A6DB6B';
+  function leafPath(x, y) { // 3x3 leaf: TL and BR corners at full radius
+    return 'M' + (x + 1.5) + ' ' + y + 'h1.25a.25 .25 0 0 1 .25 .25v1.25a1.5 1.5 0 0 1-1.5 1.5h-1.25a.25 .25 0 0 1-.25-.25v-1.25a1.5 1.5 0 0 1 1.5-1.5z';
+  }
+  function svgFor(text, variant) {
+    var q = qrcode(0, 'Q'); q.addData(text || ' '); q.make();
+    var n = q.getModuleCount(), pad = 4, s = n + pad * 2, dots = '', eyes = '', rings = '';
+    var fin = function (r, c) { return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7); };
+    var mod = variant === 'low' ? SHOOT : variant === 'plain' ? INK : FIR;
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+      if (!q.isDark(r, c) || fin(r, c)) continue;
+      if (variant === 'plain') dots += 'M' + c + ' ' + r + 'h1v1h-1z';
+      else dots += 'M' + (c + .05) + ' ' + (r + .5) + 'a.45 .45 0 1 0 .9 0a.45 .45 0 1 0-.9 0z';
+    }
+    [[0, 0], [0, n - 7], [n - 7, 0]].forEach(function (p) {
+      var y = p[0], x = p[1];
+      if (variant === 'leafring') rings += '<path fill="' + FIR + '" fill-rule="evenodd" d="M' + (x + 3.5) + ' ' + y + 'h3a.5 .5 0 0 1 .5.5v3a3.5 3.5 0 0 1-3.5 3.5h-3a.5 .5 0 0 1-.5-.5v-3a3.5 3.5 0 0 1 3.5-3.5zM' + (x + 3.5) + ' ' + (y + 1) + 'a2.5 2.5 0 0 0-2.5 2.5v2.5h2.5a2.5 2.5 0 0 0 2.5-2.5v-2.5z"/>';
+      else rings += '<path fill="' + (variant === 'plain' ? INK : mod === SHOOT ? SHOOT : FIR) + '" fill-rule="evenodd" d="M' + x + ' ' + y + 'h7v7h-7zM' + (x + 1) + ' ' + (y + 1) + 'v5h5v-5z"/>';
+      if (variant === 'plain') eyes += '<path fill="' + INK + '" d="M' + (x + 2) + ' ' + (y + 2) + 'h3v3h-3z"/>';
+      else eyes += '<path class="eye" fill="' + (variant === 'low' ? SHOOT : MOSS) + '" d="' + leafPath(x + 2, y + 2) + '"/>';
+    });
+    return '<svg viewBox="' + (-pad) + ' ' + (-pad) + ' ' + s + ' ' + s + '" role="img" aria-label="QR code">' +
+      '<rect x="' + (-pad) + '" y="' + (-pad) + '" width="' + s + '" height="' + s + '" fill="#FFFFFF"/>' +
+      '<path fill="' + mod + '" d="' + dots + '"/>' + rings + eyes + '</svg>';
+  }
+  function paint(el, text) {
+    if (typeof qrcode !== 'function') { el.textContent = 'QR preview unavailable'; return; }
+    try { el.innerHTML = svgFor(text, el.getAttribute('data-variant') || 'brand'); }
+    catch (e) { el.textContent = 'Zu lang für einen QR-Code'; }
+  }
+  document.querySelectorAll('[data-qr]').forEach(function (el) { paint(el, el.getAttribute('data-qr')); });
+  var box = document.getElementById('mockqr'), input = document.getElementById('url'), out = document.getElementById('decoded');
+  function update() { var v = input.value.trim(); out.textContent = v || '(leer)'; paint(box, v); }
+  input.addEventListener('input', update);
+  update();
+})();
+</script>
