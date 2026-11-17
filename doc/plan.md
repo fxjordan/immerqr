@@ -203,7 +203,7 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 | 2 Core encoding | built, 190 node tests green locally (round-trip suite ~20 s); not yet in CI |
 | 3 Exports and scan check | core done (22 browser tests green); E2E download tests wait for the frontend's simple mode |
 | 4 Logo | core done (logo suites green); UI drop zone is the frontend's |
-| 5 PDF export | planned |
+| 5 PDF export | core done (PDF browser tests green); lazy-chunk check moves to phase 9 with the network test |
 | 6 i18n | planned |
 | 7 Advanced mode logic | planned |
 | 8 PWA | planned |

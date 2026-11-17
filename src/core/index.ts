@@ -5,3 +5,5 @@ export { BRAND_STYLE, CLASSIC_STYLE, MIN_QUIET_ZONE, MIN_CONTRAST, contrastRatio
 export { MAX_LOGO_SCALE } from './logo';
 export { exportPng, exportSvg } from './export';
 export { scanCheck } from './scan';
+export { exportPdf } from './export-pdf';
+export type { PdfPage } from './export-pdf';

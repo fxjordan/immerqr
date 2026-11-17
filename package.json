@@ -33,6 +33,7 @@
     "fast-check": "^4.10.2",
     "fast-xml-parser": "^5.12.1",
     "globals": "^17.14.0",
+    "pdfjs-dist": "^6.5.438",
     "playwright": "^1.65.1",
     "prettier": "^3.10.1",
     "prettier-plugin-svelte": "^4.1.1",
@@ -45,6 +46,7 @@
     "zxing-wasm": "^3.1.7"
   },
   "dependencies": {
+    "jspdf": "^4.2.1",
     "jsqr": "^1.4.0"
   }
 }

@@ -64,6 +64,8 @@ declare function generate(input: GenerateInput): GenerateResult | GenerateError;
 declare function scanCheck(svg: string): Promise<{ ok: true; text: string } | { ok: false }>;
 declare function exportSvg(result: GenerateResult): Blob;
 declare function exportPng(result: GenerateResult, opts: { sizePx: number }): Promise<{ blob: Blob; modulePx: number }>;
+// sizeMm is the whole code incl. quiet zone; 'fit' makes the page exactly that size. jsPDF loads lazily on first call.
+// Throws RangeError when the code does not fit the page.
 declare function exportPdf(result: GenerateResult, opts: { page: 'A4' | 'Letter' | 'fit'; sizeMm: number }): Promise<Blob>;
 ```
 
