@@ -58,6 +58,7 @@ declare function encodePayload(p: Payload): string;      // throws InvalidPayloa
 declare function isGenerateError(r: GenerateResult | GenerateError): r is GenerateError;
 // generate() throws only for styles no control can produce: quiet zone < 4 or a colour that is not #rgb / #rrggbb.
 declare function generate(input: GenerateInput): GenerateResult | GenerateError;
+// exportPng and scanCheck draw on a canvas and need the browser main thread.
 declare function scanCheck(svg: string): Promise<{ ok: true; text: string } | { ok: false }>;
 declare function exportSvg(result: GenerateResult): Blob;
 declare function exportPng(result: GenerateResult, opts: { sizePx: number }): Promise<{ blob: Blob; modulePx: number }>;

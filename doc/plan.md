@@ -117,16 +117,16 @@ Tests:
 
 Done-check: suites green in CI; deployed placeholder unchanged (core not wired yet).
 
-### Phase 3: Simple mode, minimal UI
+### Phase 3: Exports and scan check
+
+The frontend agent builds simple mode in parallel (`doc/handover/frontend-design.md`); this phase delivers what it calls.
 
 Features:
-- Unstyled, accessible simple mode: URL field → live preview (debounced) → PNG / SVG download → scan check showing the exact text.
-- `exportSvg`, `exportPng` (canvas, integer module size, remainder padded white/transparent to hit exact pixels), `scanCheck` (jsQR on a canvas rasterisation).
-- Minimal app shell so the frontend agent can take over `src/ui/`.
+- `exportSvg`, `exportPng` (canvas, integer module size, remainder padded with the background or left transparent to hit exact pixels), `scanCheck` (jsQR on an integer-module rasterisation, transparent backgrounds judged on white).
 
 Tests:
-- Browser project: PNG has exact requested dimensions, integer module size, decodes.
-- E2E: type URL, download PNG and SVG, decode both files, equal to input; empty field and too-long states visible.
+- Browser project: PNG has exact requested dimensions, integer module size, padding in background colour, decodes with jsQR and zxing-wasm; SVG export round-trips; scan check passes for every style and reports failure for an unreadable image.
+- E2E (once the frontend's simple mode is merged): type URL, download PNG and SVG, decode both files, equal to input; empty field and too-long states visible.
 
 Done-check: deployed site generates and downloads a scannable code.
 
@@ -201,7 +201,7 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 |---|---|
 | 1 Scaffold & deploy | built, all checks green locally; waiting for GitHub repo + DNS to deploy |
 | 2 Core encoding | built, 190 node tests green locally (round-trip suite ~20 s); not yet in CI |
-| 3 Simple mode | planned |
+| 3 Exports and scan check | core done (22 browser tests green); E2E download tests wait for the frontend's simple mode |
 | 4 Logo | planned |
 | 5 PDF export | planned |
 | 6 i18n | planned |
