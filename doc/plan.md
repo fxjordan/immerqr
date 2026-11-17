@@ -27,7 +27,7 @@ Implementation plan for immerqr.de. Requirements come from `doc/handover/impleme
 | Property tests | fast-check |
 | E2E | Playwright + `@axe-core/playwright` |
 | Deploy | GitHub Actions → GitHub Pages, `public/CNAME` = `immerqr.de`, base path `/` |
-| Package manager | npm, Node 22 LTS, lockfile committed |
+| Package manager | npm, Node 24 LTS (`.nvmrc`), lockfile committed |
 
 ## Folder layout
 
@@ -72,7 +72,8 @@ To land in `doc/handover/contract.md` before code depends on them:
 ## Known risks
 
 - **Capacity codes at 300 px.** A version-40 code (177 + 8 modules) at 300 px gives 1.6 px per module, below what any decoder reads. The 300 px decode runs only where it yields ≥ 2.5 px per module; 1000 px always runs. The skip is explicit in the test output.
-- **jsQR and dots.** jsQR is weaker than OpenCV, which set the style rules. If dots at radius 0.45 fail jsQR, the round-trip suite will show it in phase 2 and I'll report back before changing the brand style.
+- **jsQR and dots.** Resolved in phase 2 with three style rules, agreed 2026-11-17 and recorded in `doc/branding.md`: the leaf eye is mirrored (top-right/bottom-left rounded), alignment patterns stay square, the "Punkt" eye has corner radius 0.6.
+- **jsQR and fractional rasters.** jsQR misreads large versions at some fractional pixel-per-module ratios (v40 at 5.4 px fails, 5.5 px passes) but reads every integer ratio from 5 px on. Exports and the in-app scan check always use integer module sizes; the corpus suite keeps fractional 300/1000 px rasters, the v40 capacity test snaps to integer module sizes.
 - **CSP vs. Svelte and logo.** Svelte transitions inject inline styles; logos are `data:` URIs. Expected widening: `style-src 'self' 'unsafe-inline'`, `img-src 'self' data: blob:`. Each widening is checked in phase 9 and documented in `index.html`.
 - **Suite runtime.** 8 kinds × 4 ECC × 3 module × 3 eye styles × corpus × 2 sizes × 2 decoders is several thousand decodes. Budget: under 3 min in CI; if exceeded, shard by payload kind across CI jobs rather than cut combinations.
 
@@ -198,8 +199,8 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 
 | Phase | Status |
 |---|---|
-| 1 Scaffold & deploy | planned |
-| 2 Core encoding | planned |
+| 1 Scaffold & deploy | built, all checks green locally; waiting for GitHub repo + DNS to deploy |
+| 2 Core encoding | built, 190 node tests green locally (round-trip suite ~20 s); not yet in CI |
 | 3 Simple mode | planned |
 | 4 Logo | planned |
 | 5 PDF export | planned |

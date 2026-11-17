@@ -101,12 +101,14 @@ Wordmark: "Immer" in fir, "QR" in moss (dark mode: ink and shoot), Bricolage Gro
 How the app draws codes by default:
 
 - Data modules: dots, radius 0.45 module, fir `#0F3B2C` on white.
-- Finder patterns: outer ring stays **square**; the 3×3 core is a moss leaf.
+- Finder patterns: outer ring stays **square**; the 3×3 core is a moss leaf with the **top-right and bottom-left** corners at full radius (the mirror image of the mark). jsQR checks finder ratios along the top-left → bottom-right diagonal; rounding those corners made it fail every code.
+- Alignment patterns (the small 5×5 squares in version 2+) are always drawn as square modules, also in dots style. Dotted ones are not found by jsQR.
+- The "Punkt" eye option is a 3×3 core with corner radius 0.6, not a full circle; jsQR fails a full circle and some codes at radius 0.75.
 - Quiet zone: 4 modules. Error correction: Q by default, H with a logo.
 - Background: always white, in both themes.
 - A plain option (classic black squares) is always available.
 
-Tested with OpenCV's `QRCodeDetector` and `QRCodeDetectorAruco`, full size and scaled to 300 px (`brand/scan-test.py`): dots + square ring + leaf core decode everywhere; a leaf-shaped or rounded **outer** ring fails, so it is not allowed. Light modules (shoot on white, 1.5:1) are not allowed either. Test on real phones before shipping.
+Tested with OpenCV's `QRCodeDetector` and `QRCodeDetectorAruco`, full size and scaled to 300 px (`brand/scan-test.py`): dots + square ring + leaf core decode everywhere; a leaf-shaped or rounded **outer** ring fails, so it is not allowed. Light modules (shoot on white, 1.5:1) are not allowed either. The app's test suite (2026-11-17) adds jsQR and zxing-wasm, which set the leaf orientation, alignment and "Punkt" rules above. Test on real phones before shipping.
 
 ### Domain
 

@@ -31,27 +31,39 @@ interface CodeStyle {
   quietZone: number;                     // modules, minimum 4
 }
 
-interface Logo { image: ImageBitmap | HTMLImageElement; scale: number; plate: boolean; platePadding: number } // scale ≤ 0.25
+// The UI reads the dropped file with FileReader and passes the data URL; the SVG embeds it, so it stays self-contained.
+interface LogoImage { dataUrl: string; width: number; height: number }
+interface Logo { image: LogoImage; scale: number; plate: boolean; platePadding: number } // scale ≤ 0.25, above is an error
 
 interface GenerateInput { payload: Payload; ecc: Ecc; style: CodeStyle; logo?: Logo }
 
 interface GenerateResult {
   text: string;                          // exact encoded string, shown to the user verbatim
   version: number;                       // QR version 1–40
-  svg: string;                           // self-contained SVG, no external references
-  warnings: StyleWarning[];              // e.g. 'low-contrast', 'inverted', 'logo-too-large', 'ecc-raised-for-logo'
+  ecc: Ecc;                              // level actually used (H when a logo forced it)
+  size: number;                          // symbol width in modules, quiet zone excluded
+  svg: string;                           // self-contained SVG, viewBox in module units; the three finder cores carry class="eye" for the unfurl animation
+  warnings: StyleWarning[];
 }
 
-type GenerateError = { code: 'too-long'; maxChars: number } | { code: 'invalid-payload'; field: string };
+// low-module-px: PNG or print size gives under 4 px or 0.4 mm per module.
+type StyleWarning = 'low-contrast' | 'inverted' | 'ecc-raised-for-logo' | 'low-module-px';
 
-declare function encodePayload(p: Payload): string;
+type GenerateError =
+  | { code: 'too-long'; maxChars: number; length: number } // counted in UTF-8 bytes, or characters for digit-only / upper-case alphanumeric text
+  | { code: 'invalid-payload'; field: string }
+  | { code: 'logo-too-large'; maxScale: 0.25 };
+
+declare function encodePayload(p: Payload): string;      // throws InvalidPayloadError { field }
+declare function isGenerateError(r: GenerateResult | GenerateError): r is GenerateError;
+// generate() throws only for styles no control can produce: quiet zone < 4 or a colour that is not #rgb / #rrggbb.
 declare function generate(input: GenerateInput): GenerateResult | GenerateError;
 declare function scanCheck(svg: string): Promise<{ ok: true; text: string } | { ok: false }>;
 declare function exportSvg(result: GenerateResult): Blob;
-declare function exportPng(result: GenerateResult, sizePx: number): Promise<Blob>;
+declare function exportPng(result: GenerateResult, opts: { sizePx: number }): Promise<{ blob: Blob; modulePx: number }>;
 declare function exportPdf(result: GenerateResult, opts: { page: 'A4' | 'Letter' | 'fit'; sizeMm: number }): Promise<Blob>;
 ```
 
 ## Defaults
 
-Simple mode calls `generate` with the brand style ("Blatt im Auge", see `doc/branding.md`): `modules: 'dots'`, `eye: 'leaf'`, fir modules, moss eyes, white background, quiet zone 4, ECC `Q` (`H` when a logo is present).
+Core exports `BRAND_STYLE` and `CLASSIC_STYLE`. Simple mode calls `generate` with the brand style ("Blatt im Auge", see `doc/branding.md`): `modules: 'dots'`, `eye: 'leaf'`, fir modules, moss eyes, white background, quiet zone 4, ECC `Q` (`H` when a logo is present).
