@@ -69,6 +69,20 @@ declare function exportPng(result: GenerateResult, opts: { sizePx: number }): Pr
 declare function exportPdf(result: GenerateResult, opts: { page: 'A4' | 'Letter' | 'fit'; sizeMm: number }): Promise<Blob>;
 ```
 
+## Sizing and file names
+
+```ts
+declare function printPx(mm: number, dpi: number): number;          // pixels to print mm at dpi
+// ['low-module-px'] under 4 px (PNG) or 0.4 mm (print/PDF) per module; show it next to the size control.
+declare function exportWarnings(result: GenerateResult, size: { px?: number; mm?: number }): StyleWarning[];
+// User's name made safe for every file system, else immerqr-<host> / immerqr-<kind>; ext without dot.
+declare function fileName(payload: Payload, ext: 'png' | 'svg' | 'pdf', custom?: string): string;
+```
+
+## Language (`src/i18n/locale.ts`)
+
+`initialLocale(localStorage, navigator.languages)` returns the saved choice or the detected language (`de*` → `de`, else `en`); `saveLocale(localStorage, locale)` and `applyLocale(document, locale)` go with every switch. All three tolerate blocked storage. The UI's `t()` helper and locale files sit next to it.
+
 ## Defaults
 
 Core exports `BRAND_STYLE` and `CLASSIC_STYLE`. Simple mode calls `generate` with the brand style ("Blatt im Auge", see `doc/branding.md`): `modules: 'dots'`, `eye: 'leaf'`, fir modules, moss eyes, white background, quiet zone 4, ECC `Q` (`H` when a logo is present).

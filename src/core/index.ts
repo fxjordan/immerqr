@@ -7,3 +7,5 @@ export { exportPng, exportSvg } from './export';
 export { scanCheck } from './scan';
 export { exportPdf } from './export-pdf';
 export type { PdfPage } from './export-pdf';
+export { exportWarnings, printPx, MIN_MODULE_MM, MIN_MODULE_PX } from './sizing';
+export { fileName } from './filename';

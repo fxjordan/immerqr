@@ -204,7 +204,7 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 | 3 Exports and scan check | core done (22 browser tests green); E2E download tests wait for the frontend's simple mode |
 | 4 Logo | core done (logo suites green); UI drop zone is the frontend's |
 | 5 PDF export | core done (PDF browser tests green); lazy-chunk check moves to phase 9 with the network test |
-| 6 i18n | planned |
-| 7 Advanced mode logic | planned |
+| 6 i18n | detection, persistence, `<html lang>` done; key-parity and E2E tests wait for the frontend's locale files |
+| 7 Advanced mode logic | core done (print size, `low-module-px`, file names); per-content-type E2E waits for the frontend's forms |
 | 8 PWA | planned |
 | 9 Hardening | planned |
