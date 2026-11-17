@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.vitest-attachments/
+.DS_Store
+*.local
+/out.txt
+/qr.png
+.vitest/
