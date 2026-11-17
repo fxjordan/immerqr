@@ -75,6 +75,7 @@ To land in `doc/handover/contract.md` before code depends on them:
 - **jsQR and dots.** Resolved in phase 2 with three style rules, agreed 2026-11-17 and recorded in `doc/branding.md`: the leaf eye is mirrored (top-right/bottom-left rounded), alignment patterns stay square, the "Punkt" eye has corner radius 0.6.
 - **jsQR and fractional rasters.** jsQR misreads large versions at some fractional pixel-per-module ratios (v40 at 5.4 px fails, 5.5 px passes) but reads every integer ratio from 5 px on. Exports and the in-app scan check always use integer module sizes; the corpus suite keeps fractional 300/1000 px rasters, the v40 capacity test snaps to integer module sizes.
 - **CSP vs. Svelte and logo.** Svelte transitions inject inline styles; logos are `data:` URIs. Expected widening: `style-src 'self' 'unsafe-inline'`, `img-src 'self' data: blob:`. Each widening is checked in phase 9 and documented in `index.html`.
+- **Dev-dependency advisories.** `npm audit` reports picomatch (ReDoS), minimatch and glob in build and test tooling only; nothing ships to the browser. Revisit when fixed versions exist.
 - **Suite runtime.** 8 kinds × 4 ECC × 3 module × 3 eye styles × corpus × 2 sizes × 2 decoders is several thousand decodes. Budget: under 3 min in CI; if exceeded, shard by payload kind across CI jobs rather than cut combinations.
 
 ## Phases
@@ -206,5 +207,5 @@ Before launch. Scanners: iOS camera, Android Google Lens, one third-party app (n
 | 5 PDF export | core done (PDF browser tests green); lazy-chunk check moves to phase 9 with the network test |
 | 6 i18n | detection, persistence, `<html lang>` done; key-parity and E2E tests wait for the frontend's locale files |
 | 7 Advanced mode logic | core done (print size, `low-module-px`, file names); per-content-type E2E waits for the frontend's forms |
-| 8 PWA | planned |
+| 8 PWA | service worker, manifest, offline reload done (E2E green); icons and update toast are the frontend's |
 | 9 Hardening | planned |

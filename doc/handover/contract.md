@@ -83,6 +83,10 @@ declare function fileName(payload: Payload, ext: 'png' | 'svg' | 'pdf', custom?:
 
 `initialLocale(localStorage, navigator.languages)` returns the saved choice or the detected language (`de*` → `de`, else `en`); `saveLocale(localStorage, locale)` and `applyLocale(document, locale)` go with every switch. All three tolerate blocked storage. The UI's `t()` helper and locale files sit next to it.
 
+## PWA (`src/pwa.ts`)
+
+`main.ts` calls `startPwa()`. For the "update available, reload" toast, subscribe with `onPwaChange(({ updateReady, offlineReady }) => …)` and call `applyUpdate()` on the button. The manifest expects icons at `public/icons/icon-192.png`, `icon-512.png` and `icon-maskable-512.png`.
+
 ## Defaults
 
 Core exports `BRAND_STYLE` and `CLASSIC_STYLE`. Simple mode calls `generate` with the brand style ("Blatt im Auge", see `doc/branding.md`): `modules: 'dots'`, `eye: 'leaf'`, fir modules, moss eyes, white background, quiet zone 4, ECC `Q` (`H` when a logo is present).
