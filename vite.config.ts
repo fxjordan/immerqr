@@ -17,8 +17,11 @@ function pagesFallback(): Plugin {
   };
 }
 
+/** Path the site is served under: `/` on its own domain, `/immerqr/` as a GitHub project page. */
+const base = process.env.BASE_PATH ?? '/';
+
 export default defineConfig({
-  base: '/',
+  base,
   resolve: {
     alias: Object.fromEntries(
       ['html2canvas', 'canvg', 'dompurify'].map((name) => [
@@ -38,21 +41,22 @@ export default defineConfig({
         short_name: 'ImmerQR',
         description: 'QR-Codes, die nie verwelken. Dein Link steckt direkt im Code.',
         lang: 'de',
-        start_url: '/',
-        scope: '/',
+        // Relative to the manifest, so the app installs correctly under any base path.
+        start_url: '.',
+        scope: '.',
         display: 'standalone',
         theme_color: '#0F3B2C',
         background_color: '#F4F8F3',
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {
         // Everything the app needs offline, including the lazily loaded jsPDF and jsQR chunks and fonts.
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,webmanifest}'],
-        navigateFallback: '/index.html',
+        navigateFallback: `${base}index.html`,
         cleanupOutdatedCaches: true,
         // Control the first page view at once; updates still wait for the user's reload prompt.
         clientsClaim: true,

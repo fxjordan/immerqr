@@ -31,6 +31,6 @@ test('serves a valid web manifest', async ({ request }) => {
     name: 'ImmerQR',
     display: 'standalone',
     theme_color: '#0F3B2C',
-    start_url: '/',
+    start_url: '.',
   });
 });

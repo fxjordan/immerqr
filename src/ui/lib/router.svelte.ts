@@ -8,8 +8,12 @@ const PATHS: Record<Exclude<Route, 'notFound'>, string> = {
   imprint: '/impressum',
 };
 
+/** Base path from the build, e.g. `/` or `/immerqr/`, without the trailing slash. */
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 function resolve(pathname: string): Route {
-  const clean = pathname.replace(/\/+$/, '') || '/';
+  const inApp = pathname.startsWith(BASE) ? pathname.slice(BASE.length) : pathname;
+  const clean = inApp.replace(/\/+$/, '') || '/';
   for (const [route, path] of Object.entries(PATHS)) {
     if (path === clean) return route as Route;
   }
@@ -27,7 +31,7 @@ export function currentRoute(): Route {
 }
 
 export function hrefFor(route: Exclude<Route, 'notFound'>): string {
-  return PATHS[route];
+  return route === 'home' ? `${BASE}/` : BASE + PATHS[route];
 }
 
 /** Click handler for internal links: navigates without a reload, keeps modifier-clicks native. */

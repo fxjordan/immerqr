@@ -1,2 +1,2 @@
 /** Public repository of the app. */
-export const SOURCE_URL = 'https://github.com/immerqr/immerqr';
+export const SOURCE_URL = 'https://github.com/fxjordan/immerqr';
